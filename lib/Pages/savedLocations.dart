@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/API/FetchWeather.dart';
+import 'package:weather/Pages/searchResult.dart';
 
 import '../Controller/globelController.dart';
 import '../Model/wather/wather.dart';
@@ -16,6 +19,8 @@ class _savedLocationsState extends State<savedLocations> {
   TextEditingController searchController = TextEditingController();
   final GlobalController globalController =
   Get.put(GlobalController(), permanent: true);
+  late Wather cityWather ;
+  String Scity = "";
   late Wather wather;
 
   @override
@@ -57,9 +62,13 @@ class _savedLocationsState extends State<savedLocations> {
                     ),
                     borderRadius: BorderRadius.circular(25)),
                 child: TextField(
+                  controller: searchController,
                   decoration: InputDecoration(
                       suffixIcon: IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await search(searchController.text.trim());
+                            searchController.clear();
+                          },
                           icon: Icon(
                             Icons.search,
                             color: Colors.grey,
@@ -174,7 +183,7 @@ class _savedLocationsState extends State<savedLocations> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${((wather.main!.temp! - 273.15)+2).round()}°',
+                                  '${(globalController.mumbaiWather.main!.temp! - 273.15).round()}°',
                                   style: TextStyle(
                                       fontSize: 50, color: Colors.white),
                                 ),
@@ -187,7 +196,7 @@ class _savedLocationsState extends State<savedLocations> {
                                       fontSize: 15, color: Colors.grey),
                                 ),
                                 Text(
-                                  '${'Mumbai'}, ${wather.sys!.country}',
+                                  '${'Mumbai'}, ${globalController.mumbaiWather.sys!.country}',
                                   style: TextStyle(
                                       fontSize: 17, color: Colors.white),
                                 ),
@@ -205,7 +214,7 @@ class _savedLocationsState extends State<savedLocations> {
                                     child: Image.asset(
                                         'assets/Moon_cloud_fast_wind.png')),
                                 Text(
-                                  wather.weather![0].description.toString(),
+                                  globalController.mumbaiWather.weather![0].description.toString(),
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ],
@@ -226,7 +235,18 @@ class _savedLocationsState extends State<savedLocations> {
       ),
     );
   }
+
+  Future<void> search(String city) async {
+    await FetchWeatherAPI().processData(city).then((value) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => searchResult(cityWather: value.current!.wather, Scity: city)));
+    }).catchError((error){
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Something is wrong!')));
+    });
+  }
 }
+
+
 
 class CustompathCliper extends CustomClipper<Path> {
   @override

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:weather/API/apiKey.dart';
@@ -14,10 +15,15 @@ class FetchWeatherAPI{
   WeatherData? weatherData ;
 
   Future<WeatherData> processData(String city) async{
-    var response = await http.get(Uri.parse(await apiURL(city)));
-    var jsonString = jsonDecode(response.body);
-    weatherData = WeatherData(weatherDataCurrent.fromJson(jsonString));
-    return weatherData! ;
+    try{
+      var response = await http.get(Uri.parse(await apiURL(city)));
+      var jsonString = jsonDecode(response.body);
+      weatherData = WeatherData(weatherDataCurrent.fromJson(jsonString));
+      return weatherData! ;
+    }
+    catch(e){
+      return Future.error('Something is wrong!');
+    }
   }
 
   Future<String> apiURL(String City) async{
