@@ -1,16 +1,38 @@
-# weather
 
-A new Flutter project.
+# 🌦️ CLIMACAST
 
-## Getting Started
+## 🌟 Description
+CLIMACAST is a comprehensive weather forecast application built with Flutter. It provides users with current weather updates and forecasts for the coming days, ensuring you stay prepared for any weather conditions.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## ✨ Features
+- 🌡️ Current weather updates
+- 📅 7-day weather forecast
+- 🌐 Location-based weather data
+- 📊 Detailed weather information: temperature, humidity, wind speed, and more
+- 🌄 Dynamic weather backgrounds
+- 📍 Search weather by city
+- ⏰ Automatic updates
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🛠️ Tools and Technologies
+- Flutter
+- Dart
+- OpenWeatherMap API
+
+## 🛠️ Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/parajiholkar/CLIMACAST.git
+
+2. Navigate to the project directory:
+   ```bash
+   cd CLIMACAST
+
+3. Install dependencies:
+    ```bash
+   flutter pub get
+
+4. Run the application:
+    ```bash
+   flutter run
