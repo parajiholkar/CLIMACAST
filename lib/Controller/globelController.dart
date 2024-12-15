@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -24,7 +24,11 @@ class GlobalController extends GetxController {
   @override
   void onInit() {
     if (_isLoading.isTrue) {
-      getLocation();
+      try{
+        getLocation();
+      }catch(e){
+        Fluttertoast.showToast(msg: e.toString());
+      }
     }
     super.onInit();
   }
@@ -34,21 +38,18 @@ class GlobalController extends GetxController {
     bool isServiceEnabled = await Geolocator.isLocationServiceEnabled();
 
     if (!isServiceEnabled) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(SnackBar(content: Text('location Not Enabled')));
+      Fluttertoast.showToast(msg: 'location Not Enabled');
       return Future.error('location Not Enabled');
     }
 
     locationPermission = await Geolocator.checkPermission();
     if (locationPermission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(SnackBar(content: Text('Location Permission are denied forever')));
+      Fluttertoast.showToast(msg: 'Location Permission are denied forever');
       return Future.error('Location Permission are denied forever');
     } else if (locationPermission == LocationPermission.denied) {
       locationPermission = await Geolocator.requestPermission();
       if (locationPermission == LocationPermission.denied) {
-        ScaffoldMessenger.of(Get.context!)
-            .showSnackBar(SnackBar(content: Text('Location Permission is denied')));
+        Fluttertoast.showToast(msg: 'Location Permission is denied');
         return Future.error('Location Permission is denied');
       }
     }
